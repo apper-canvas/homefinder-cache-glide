@@ -1,27 +1,30 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ApperIcon from '@/components/ApperIcon'
 import { routes } from '@/config/routes'
 import { favoritesService } from '@/services'
-
+import { AuthContext } from '@/App'
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [favoritesCount, setFavoritesCount] = useState(0)
   const location = useLocation()
+  const authContext = useContext(AuthContext)
 
   useEffect(() => {
     const loadFavoritesCount = async () => {
       try {
-        const favorites = await favoritesService.getAll()
-        setFavoritesCount(favorites.length)
+        if (authContext?.isInitialized) {
+          const favorites = await favoritesService.getAll()
+          setFavoritesCount(favorites.length)
+        }
       } catch (error) {
         console.error('Failed to load favorites count:', error)
+        setFavoritesCount(0)
       }
     }
     loadFavoritesCount()
-  }, [location])
-
+  }, [location, authContext?.isInitialized])
   const visibleRoutes = Object.values(routes).filter(route => !route.hidden)
 
   return (

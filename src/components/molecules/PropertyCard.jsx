@@ -155,8 +155,8 @@ const PropertyCard = ({ property, index = 0, onFavoriteChange }) => {
         
         {/* Property Type Badge */}
         <div className="absolute top-3 left-3">
-          <Badge variant="primary" size="sm">
-            {property.propertyType}
+<Badge variant="primary" size="sm">
+            {property.propertyType || property.property_type}
           </Badge>
         </div>
         
@@ -189,9 +189,9 @@ const PropertyCard = ({ property, index = 0, onFavoriteChange }) => {
         
         {/* Address */}
         <p className="text-gray-600 mb-3 flex items-center">
-          <ApperIcon name="MapPin" size={16} className="mr-1 flex-shrink-0" />
+<ApperIcon name="MapPin" size={16} className="mr-1 flex-shrink-0" />
           <span className="truncate">
-            {property.address.street}, {property.address.city}
+            {property.address?.street}, {property.address?.city}
           </span>
         </p>
         
